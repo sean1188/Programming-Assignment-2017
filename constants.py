@@ -28,6 +28,10 @@ DISP_BIKE_INFO_HEAD = """
  Bike No. Purchase Date  Batt % Last Maintenance KM Since Last  Service?
  -------- -------------  ------ ---------------- -------------  --------
 """
+DISP_BIKE_RIDE_INFO_HEAD = """
+ Bike No. Ride duration  Ride distance Battery %
+ -------- -------------  ------------- ---------
+"""
 ERROR = "Invalid Input!"
 OPTION_MSG = {
               1 : 'Read bicycle info from file',
@@ -52,6 +56,7 @@ class Bicycle:
         self.lastMaintenance = lastMaintenance
         self.kmSinceLast = kmSinceLast
         self.needsService = "Y" if (dateObjectFrom(time.strftime("%d/%m/%Y")) - dateObjectFrom(lastMaintenance)).days > (365/2) or float(kmSinceLast) >50 or float(batteryPercentage) < 10 else "N"
+        self.rideHistory = [i[:-1].split(',') for i in open('./data/Assignment_Data2.csv','r') if i.split(',')[0] == bikeNumber]
 
 ### Bike operations helper class ###
 class Bikes:
@@ -59,12 +64,12 @@ class Bikes:
         # Bikes is an array of bicycles
         self.bicycles = bicycles
 
-    def getBikes_With_id(self,bikeNumber):
-        fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bikes))
+    def get_bikes_with_id(self,bikeNumber):
+        fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bicycles))
         return fil[0] if len(fil) > 0 else False
 
-    def addBike_With_id(self,bikeNumber,dateCreated):
-        if getBikes_With_id(bikeNumber) == False:
+    def add_bike_with_id(self,bikeNumber,dateCreated):
+        if get_bikes_with_id(bikeNumber) == False:
             self.bicycles.append(Bicycle(bikeNumber,dateCreated))
         else:
             print('Bike addition failed, bike with same number already exists!')
