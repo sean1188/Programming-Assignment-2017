@@ -22,8 +22,8 @@ class BikeManager:
     def get_bikes_toService(self):
         return list(filter(lambda x: x.needsService == "Y", self.bicycles))
 
-    def mantain_bike(self, bikeNumber):
-        get_bike = self.get_bikes_with_id(bikeNumber)
+    def mantain_bike(self, get_bike):
+        self.bicycles[self.bicycles.index(get_bike)] = Bicycle(get_bike.bikeNumber,get_bike.purchaseDate,"100",time.strftime("%d/%m/%Y"),"0.00")
 
     def get_bikes_with_id(self,bikeNumber):
         fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bicycles))

@@ -85,7 +85,18 @@ def main_perform_maintainance():
     for i in bike_manager.get_bikes_toService():
         service_info_string = " & ".join(list(map(lambda x: x[1] ,filter(lambda x: x[0] ,zip(i.service_information,("Months","km","batt"))))))
         print (f' {i.bikeNumber:<9}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<14}{service_info_string:<9}')
-
+    print('Input "exit" to exit maintenance mode.')
+    while True:
+        bike_to_service = bike_manager.get_bikes_with_id(input('Bike No.: '))
+        if  bike_to_service == False:
+            print('No such bicycle')
+        elif bike_to_service.needsService == "N":
+            print('Bicycle not due for servicing.')
+        else:
+            bike_manager.mantain_bike(bike_to_service)
+            print('Bicycle serviced.')
+            init(-1)
+            break
 
 # init Router
 def init(withOption):
