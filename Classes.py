@@ -8,13 +8,22 @@ class Bicycle:
         self.batteryPercentage = batteryPercentage
         self.lastMaintenance = lastMaintenance
         self.kmSinceLast = kmSinceLast
-        self.needsService = "Y" if (dateObjectFrom(time.strftime("%d/%m/%Y")) - dateObjectFrom(lastMaintenance)).days > (365/2) or float(kmSinceLast) >50 or float(batteryPercentage) < 10 else "N"
+        # Tuple containing boolean for service requirements
+        # Service tuple format - (Months, km, Batt)
+        self.service_information = ((dateObjectFrom(time.strftime("%d/%m/%Y")) - dateObjectFrom(lastMaintenance)).days > (365/2), float(kmSinceLast) >50 , float(batteryPercentage) < 10)
+        self.needsService = "Y" if True in self.service_information else "N"
+        # List of ride history information
         self.rideHistory = [i[:-1].split(',') for i in open('./data/Assignment_Data2.csv','r') if i.split(',')[0] == bikeNumber]
 
-### Bike operations helper class ###
 class BikeManager:
     def __init__ (self,bicycles):
         self.bicycles = bicycles
+
+    def get_bikes_toService(self):
+        return list(filter(lambda x: x.needsService == "Y", self.bicycles))
+
+    def mantain_bike(self, bikeNumber):
+        get_bike = self.get_bikes_with_id(bikeNumber)
 
     def get_bikes_with_id(self,bikeNumber):
         fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bicycles))

@@ -7,7 +7,7 @@ from Classes import Bicycle, BikeManager
 
 ### Variables ###
 
-bike_manager = []
+bike_manager = BikeManager
 
 ### Helper Methods ###
 
@@ -68,7 +68,7 @@ def main_add_bike():
     global bike_manager
     try:
         new_bikeID = input('Enter new Bike No.: ')
-        if len(new_bikeID) > 4:
+        if len(new_bikeID) != 4:
             raise Exception
         new_bike_purchaseDate = input('Purchase Date: ')
         if len(new_bike_purchaseDate.split('/')) != 3 and len(new_bike_purchaseDate) != 10:
@@ -78,6 +78,14 @@ def main_add_bike():
         init(-1)
     except Exception:
         throws_Error('Invalid input(s)', 4)
+
+def main_perform_maintainance():
+    global bike_manager
+    print(MANTAIN_BIKE_HEADER)
+    for i in bike_manager.get_bikes_toService():
+        service_info_string = " & ".join(list(map(lambda x: x[1] ,filter(lambda x: x[0] ,zip(i.service_information,("Months","km","batt"))))))
+        print (f' {i.bikeNumber:<9}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<14}{service_info_string:<9}')
+
 
 # init Router
 def init(withOption):
@@ -92,6 +100,8 @@ def init(withOption):
         main_display_bike_info()
     elif userOption == 4:
         main_add_bike()
+    elif userOption == 5:
+        main_perform_maintainance()
     elif userOption == 0:
         sys.exit()
 init(-1)

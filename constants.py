@@ -33,13 +33,18 @@ DISP_BIKE_RIDE_INFO_HEAD = """
  Bike No. Ride duration  Ride distance Battery %
  -------- -------------  ------------- ---------
 """
+MANTAIN_BIKE_HEADER = """
+ Bike No. Batt % Last Maintenance KM since Last Reason/s
+ -------- ------ ---------------- ------------- ---------
+"""
 ERROR = "Invalid Input!"
 OPTION_MSG = {
-              0 : ' EXIT - Bye bye!',
+              0 : 'EXIT - Bye bye!',
               1 : 'Read bicycle info from file',
               2 : 'Display all bicycle info with servicing indication',
               3 : 'Display selected bicycle info',
-              4 : 'Add a bicycle.'
+              4 : 'Add a bicycle.',
+              5 : 'Perform bicycle maintenance'
               }
 
 ### Helper methods ###
