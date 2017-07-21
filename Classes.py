@@ -1,0 +1,28 @@
+from Constants import *
+
+### Bicycle DOM ###
+class Bicycle:
+    def __init__ (self,bikeNumber, purchaseDate, batteryPercentage, lastMaintenance , kmSinceLast):
+        self.bikeNumber = bikeNumber
+        self.purchaseDate = purchaseDate
+        self.batteryPercentage = batteryPercentage
+        self.lastMaintenance = lastMaintenance
+        self.kmSinceLast = kmSinceLast
+        self.needsService = "Y" if (dateObjectFrom(time.strftime("%d/%m/%Y")) - dateObjectFrom(lastMaintenance)).days > (365/2) or float(kmSinceLast) >50 or float(batteryPercentage) < 10 else "N"
+        self.rideHistory = [i[:-1].split(',') for i in open('./data/Assignment_Data2.csv','r') if i.split(',')[0] == bikeNumber]
+
+### Bike operations helper class ###
+class BikeManager:
+    def __init__ (self,bicycles):
+        self.bicycles = bicycles
+
+    def get_bikes_with_id(self,bikeNumber):
+        fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bicycles))
+        return fil[0] if len(fil) > 0 else False
+
+    def add_bike_with_id(self,bikeNumber,dateCreated):
+        if self.get_bikes_with_id(bikeNumber) == False:
+            self.bicycles.append(Bicycle(bikeNumber,dateCreated,'100',time.strftime("%d/%m/%Y"),'0.00'))
+            print (self.bicycles)
+        else:
+            raise Exception

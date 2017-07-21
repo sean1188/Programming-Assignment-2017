@@ -4,6 +4,7 @@
 
 import time
 import datetime
+import sys
 
 ### Constant variables ###
 
@@ -34,42 +35,17 @@ DISP_BIKE_RIDE_INFO_HEAD = """
 """
 ERROR = "Invalid Input!"
 OPTION_MSG = {
+              0 : ' EXIT - Bye bye!',
               1 : 'Read bicycle info from file',
               2 : 'Display all bicycle info with servicing indication',
-              3 : 'Display selected bicycle info'
+              3 : 'Display selected bicycle info',
+              4 : 'Add a bicycle.'
               }
 
 ### Helper methods ###
-
 def display_OptionPickedMessage(option, instructions):
     print(f'\nOption {option}: {instructions}')
 
 getDataFrom = lambda fileName:[i for i in open(f'./data/{fileName}',"r")][1:]
+
 dateObjectFrom = lambda dateStr : datetime.date(*map(int,reversed(dateStr.split('/'))))
-
-### Bicycle DOM ###
-class Bicycle:
-    def __init__ (self,bikeNumber, purchaseDate, batteryPercentage, lastMaintenance , kmSinceLast):
-        self.bikeNumber = bikeNumber
-        self.purchaseDate = purchaseDate
-        self.batteryPercentage = batteryPercentage
-        self.lastMaintenance = lastMaintenance
-        self.kmSinceLast = kmSinceLast
-        self.needsService = "Y" if (dateObjectFrom(time.strftime("%d/%m/%Y")) - dateObjectFrom(lastMaintenance)).days > (365/2) or float(kmSinceLast) >50 or float(batteryPercentage) < 10 else "N"
-        self.rideHistory = [i[:-1].split(',') for i in open('./data/Assignment_Data2.csv','r') if i.split(',')[0] == bikeNumber]
-
-### Bike operations helper class ###
-class Bikes:
-    def __init__ (self,bicycles):
-        # Bikes is an array of bicycles
-        self.bicycles = bicycles
-
-    def get_bikes_with_id(self,bikeNumber):
-        fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bicycles))
-        return fil[0] if len(fil) > 0 else False
-
-    def add_bike_with_id(self,bikeNumber,dateCreated):
-        if get_bikes_with_id(bikeNumber) == False:
-            self.bicycles.append(Bicycle(bikeNumber,dateCreated))
-        else:
-            print('Bike addition failed, bike with same number already exists!')
