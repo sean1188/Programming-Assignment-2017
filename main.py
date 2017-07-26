@@ -10,7 +10,7 @@ from Classes import Bicycle, BikeManager
 bike_manager = BikeManager(None)
 
 # Debug mode
-DEBUG = True
+DEBUG = False
 
 ### Helper Methods ###
 
@@ -36,31 +36,29 @@ def main_read_csv():
 # Display bicycle objects currenlty in bike manager instance
 def main_display_bikes():
     global bike_manager
-    # Check if instance of bike manager is valid
-    if bike_manager.bicycles == None:
-        raise Exception(ERROR_no_data, 1)
-    else:
-        # Display bicycle information
-        print(DISP_BIKE_INFO_HEAD)
-        for i in bike_manager.get_bikes():
-            print(f'{i.bikeNumber:<9}{i.purchaseDate:<15}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<15}{i.needsService:<8}')
-        finished()
+    # Print bicycle table header
+    print(DISP_BIKE_INFO_HEAD)
+    # Print table
+    print('\n'.join(list(map(lambda i: FORMAT_main_display_table(i), bike_manager.get_bikes()))))
+    finished()
 
+# Display bicycle detailed information
 def main_display_bike_info():
     global bike_manager
-    if bike_manager.bicycles == None:
-        raise Exception(ERROR_no_data,1)
-    else:
-        # Display bike info!
-        rideHistory = bike_manager.get_bikes_with_id(input('id: ').upper()).rideHistory
+    # Display bike info!
+    get_bike = bike_manager.get_bikes_with_id(input('id: ').upper())
+    if get_bike:
         print(DISP_BIKE_RIDE_INFO_HEAD)
-        for i in rideHistory:
-            print(f'{i[0]:<9}{i[1]+"sec":<15}{i[2]+"km":<14}{i[3]}')
+        for i in get_bike.rideHistory:
+            print(FORMAT_ride_history_table(i))
         finished()
+    else:
+        raise Exception(ERROR_invalid("bike No. - Bike does not exist."), 3)
 
+# Add a new bicycle
 def main_add_bike():
     global bike_manager
-    new_bikeID = input('Enter new Bike No.: ')
+    new_bikeID = input('Enter new Bike No.: ').upper()
     new_bike_purchaseDate = input('Purchase Date: ')
     if len(new_bikeID) != 4:
         raise Exception(ERROR_invalid("Bike No."),4)
@@ -70,12 +68,12 @@ def main_add_bike():
     print(f'Bicycle({new_bikeID}) has been created.')
     finished()
 
+# Perform maintenance on a bicycle.
 def main_perform_maintainance():
     global bike_manager
     print(MANTAIN_BIKE_HEADER)
     for i in bike_manager.bikes_to_service():
-        service_info_string = " & ".join(list(map(lambda x: x[1] ,filter(lambda x: x[0] ,zip(i.service_information,("Months","km","batt"))))))
-        print (f'{i.bikeNumber:<9}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<14}{service_info_string:<9}')
+        print (FORMAT_maintenance_table(i))
     print('Input "exit" and press Enter to exit maintenance mode.')
     while True:
         user_input = input('Bike No.: ')
@@ -95,6 +93,10 @@ def init(withOption):
         display_OptionPickedMessage(userOption,OPTION_MSG[userOption])
         if userOption == 1:
             main_read_csv()
+        elif userOption == 0:
+            quit()
+        elif bike_manager.bicycles == None:
+            raise Exception(ERROR_no_data, 1)
         elif userOption == 2:
             main_display_bikes()
         elif userOption == 3:
@@ -103,17 +105,21 @@ def init(withOption):
             main_add_bike()
         elif userOption == 5:
             main_perform_maintainance()
-        elif userOption == 0:
-            quit()
     except (ValueError, KeyError) as err:
-        print(err if DEBUG else f'\n# ERROR: Please enter a valid input...\n')
+        print(err if DEBUG else f'\n# ERROR: {ERROR_invalid_input}\n')
         finished()
     except FileNotFoundError as err:
         print(err if DEBUG else f'\n# ERROR: {err.args[1]}\n')
         finished()
     except Exception as error:
-        err_message, traceback = error.args
-        print(err if DEBUG else f'\n# ERROR: {err_message}\n')
-        init(-1 if input(f'Continue to {OPTION_MSG[traceback]}? (Y/N)   ').upper() == 'N'else traceback)
+        if DEBUG:
+            print(error)
+        else:
+            err_message, traceback = error.args
+            print(f'\n# ERROR: {err_message}\n')
+            init(-1 if input(f'Continue to {OPTION_MSG[traceback]}? (Y/N)   ').upper() == 'N'else traceback)
 
-init(-1)
+if __name__ == '__main__':
+    if DEBUG:
+        print('\n****DEBUG MODE ON****')
+    init(-1)

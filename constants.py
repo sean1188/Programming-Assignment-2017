@@ -63,5 +63,9 @@ def display_OptionPickedMessage(option, instructions):
     print(f'\nOption {option}: {instructions}')
 
 getDataFrom = lambda fileName:[i for i in open(f'./data/{fileName}',"r")][1:]
-
 dateObjectFrom = lambda dateStr : datetime.date(*map(int,reversed(dateStr.split('/'))))
+
+# Table formatting
+FORMAT_ride_history_table = lambda i: f'{i[0]:<9}{i[1]+"sec":<15}{i[2]+"km":<14}{i[3]}'
+FORMAT_main_display_table = lambda i: f'{i.bikeNumber:<9}{i.purchaseDate:<15}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<15}{i.needsService:<8}'
+FORMAT_maintenance_table = lambda i: f'{i.bikeNumber:<9}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<14}{i.service_information_string:<9}'
