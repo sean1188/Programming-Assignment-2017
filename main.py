@@ -3,10 +3,9 @@
 #
 
 from Constants import *
-from Classes import Bicycle, BikeManager
+from Classes import BikeManager
 
-### Variables ###
-
+# Bike manager instance
 bike_manager = BikeManager(None)
 
 # Debug mode
@@ -30,7 +29,7 @@ def main_read_csv():
     bikList = getDataFrom(input('Enter the name of the data file: '))
     print(f"Found {len(bikList) } bicycle records in file.")
     # Move data into bike instance
-    bike_manager = BikeManager([Bicycle(*i[:-1].split(',')) for i in bikList])
+    bike_manager = BikeManager(bikList)
     finished()
 
 # Display bicycle objects currenlty in bike manager instance
@@ -85,10 +84,12 @@ def main_perform_maintainance():
             finished()
             break
 
-# init Router
+
+### init Router ###
 def init(withOption):
     # Get user input and route to methods
     try:
+        # Get user input if router argument passed is -1 else override to specified subroutine
         userOption = get_user_input() if withOption == -1 else withOption
         display_OptionPickedMessage(userOption,OPTION_MSG[userOption])
         if userOption == 1:
@@ -96,6 +97,7 @@ def init(withOption):
         elif userOption == 0:
             quit()
         elif bike_manager.bicycles == None:
+            # No bicycle data loaded, throws exception
             raise Exception(ERROR_no_data, 1)
         elif userOption == 2:
             main_display_bikes()
@@ -105,6 +107,8 @@ def init(withOption):
             main_add_bike()
         elif userOption == 5:
             main_perform_maintainance()
+
+    # Error handling Fallbacks
     except (ValueError, KeyError) as err:
         print(err if DEBUG else f'\n# ERROR: {ERROR_invalid_input}\n')
         finished()
@@ -117,7 +121,8 @@ def init(withOption):
         else:
             err_message, traceback = error.args
             print(f'\n# ERROR: {err_message}\n')
-            init(-1 if input(f'Continue to {OPTION_MSG[traceback]}? (Y/N)   ').upper() == 'N'else traceback)
+            # Route to init function with traceback
+            init(-1 if input(f'Continue to {OPTION_MSG[traceback]}? (Y/N)   ').upper() == 'N' else traceback)
 
 if __name__ == '__main__':
     if DEBUG:
