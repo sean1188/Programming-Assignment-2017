@@ -1,3 +1,7 @@
+# Classes, managers and factory methods
+# Created by: Sean Lim
+#
+
 from Constants import *
 
 ### Bicycle class ###

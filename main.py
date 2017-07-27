@@ -1,4 +1,4 @@
-#
+# Main file
 # Created by: Sean Lim
 #
 
