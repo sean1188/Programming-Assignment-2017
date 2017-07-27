@@ -1,6 +1,6 @@
 from Constants import *
 
-### Bicycle DOM ###
+### Bicycle class ###
 class Bicycle:
     def __init__ (self,bikeNumber, purchaseDate, batteryPercentage, lastMaintenance , kmSinceLast):
         self.bikeNumber = bikeNumber
@@ -18,10 +18,18 @@ class Bicycle:
         # List of ride history information
         self.rideHistory = [i[:-1].split(',') for i in open('./data/Assignment_Data2.csv','r') if i.split(',')[0] == bikeNumber]
 
+### Bicycle manager ###
 class BikeManager:
 
+    # Factory method
     def __init__ (self,bicycles):
         self.bicycles = list(map(lambda i: Bicycle(*i[:-1].split(',')), bicycles)) if bicycles != None else None
+
+    def add_bike_with_id(self,bikeNumber,dateCreated):
+        if self.get_bikes_with_id(bikeNumber) == False:
+            self.bicycles.append(Bicycle(bikeNumber,dateCreated,'100',time.strftime("%d/%m/%Y"),'0.00'))
+        else:
+            raise Exception(f'Bike ({bikeNumber}) already exists', 4)
 
     # Returns an iterable
     def get_bikes (self):
@@ -48,11 +56,3 @@ class BikeManager:
     def get_bikes_with_id(self,bikeNumber):
         fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bicycles))
         return fil[0] if len(fil) > 0 else False
-
-    def add_bike_with_id(self,bikeNumber,dateCreated):
-        if self.get_bikes_with_id(bikeNumber) == False:
-            self.bicycles.append(Bicycle(bikeNumber,dateCreated,'100',time.strftime("%d/%m/%Y"),'0.00'))
-            print (self.bicycles)
-
-        else:
-            raise Exception(f'Bike ({bikeNumber}) already exists', 4)
