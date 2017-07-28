@@ -8,7 +8,7 @@ from Classes import BikeManager
 # Bike manager instance
 bike_manager = BikeManager(None)
 
-# Debug mode
+# Enable for Debug mode
 DEBUG = False
 
 ### Helper Methods ###
@@ -26,8 +26,10 @@ def finished():
 def main_read_csv():
     global bike_manager
     # Read CSV File!
-    bikList = getDataFrom(input('Enter the name of the data file: '))
+    bikList = getDataFrom(input('Enter the name of the bike data file: '))
+    # Get data from ride history file to make sure, else it will just throw FileNotFoundError
     print(f"Found {len(bikList) } bicycle records in file.")
+
     # Move data into bike instance
     bike_manager = BikeManager(bikList)
     finished()
@@ -84,6 +86,14 @@ def main_perform_maintainance():
             finished()
             break
 
+# Ride bicycles
+def main_ride_bike():
+    global bike_manager
+    # Print all the bikes that are rideable
+    print(RIDE_BIKE_HEADER)
+    print('\n'.join(list(map(lambda i: FORMAT_ride_bike(i), bike_manager.get_bikes_ride()))))
+    bike_manager.ride_bike(input('Bike No.: '))
+
 
 ### init Router ###
 def init(withOption):
@@ -107,12 +117,14 @@ def init(withOption):
             main_add_bike()
         elif userOption == 5:
             main_perform_maintainance()
+        elif userOption == 6:
+            main_ride_bike()
 
     # Error handling Fallbacks
     except (ValueError, KeyError) as err:
         print(err if DEBUG else f'\n# ERROR: {ERROR_invalid_input}\n')
         finished()
-    except FileNotFoundError as err:
+    except (FileNotFoundError,IsADirectoryError) as err:
         print(err if DEBUG else f'\n# ERROR: {err.args[1]}\n')
         finished()
     except Exception as error:

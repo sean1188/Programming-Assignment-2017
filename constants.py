@@ -12,7 +12,7 @@ MAIN_MENU = """\
 | |  | | /  \  |  \| | ' /  | |_) || | | ' /| |__  | (___
 | |  | |/ /\ \ | . ` |  <   |  _ < | | |  < |  __|  \___ \
 
-| |__| / ____ \| |\  | . \  | |_) || |_| . \| |____ ____) | 
+| |__| / ____ \| |\  | . \  | |_) || |_| . \| |____ ____) |
 |_____/_/    \_\_| \_|_|\_\ |____/_____|_|\_\______|_____/
 
 ======================================================
@@ -43,17 +43,28 @@ Bike No. Ride duration  Ride distance Battery %
 MANTAIN_BIKE_HEADER = """
 Bike No. Batt % Last Maintenance KM since Last Reason/s
 -------- ------ ---------------- ------------- ---------"""
+RIDE_BIKE_HEADER = """
+Bike No. Batt % KM since Last
+-------- ------ -------------"""
+BICYCLE = """
+ -------- __@      __@       __@       __@      __~@
+ ----- _`\<,_    _`\<,_    _`\<,_     _`\<,_    _`\<,_
+ ---- (*)/ (*)  (*)/ (*)  (*)/ (*)  (*)/ (*)  (*)/ (*)
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
 OPTION_MSG = {
               0 : 'EXIT - Bye bye!',
               1 : 'Read bicycle info from file',
               2 : 'Display all bicycle info with servicing indication',
               3 : 'Display selected bicycle info',
               4 : 'Add a bicycle',
-              5 : 'Perform bicycle maintenance'
+              5 : 'Perform bicycle maintenance',
+              6 : 'Ride a bicycle'
               }
 # Error messages
 ERROR_no_data = "No data - enter csv file name in option 1 first!"
 ERROR_invalid_input = "Please Enter a valid input..."
+ERROR_Bike_no_exist = lambda x : f'Bicycle ({x}) does not exist'
+ERROR_Bike_not_due = lambda x,y  : f'Bicycle ({x}) not {y}'
 ERROR_invalid = lambda x: f'Invalid {x}.'
 
 ### Helper methods ###
@@ -67,3 +78,4 @@ dateObjectFrom = lambda dateStr : datetime.date(*map(int,reversed(dateStr.split(
 FORMAT_ride_history_table = lambda i: f'{i[0]:<9}{i[1]+"sec":<15}{i[2]+"km":<14}{i[3]}'
 FORMAT_main_display_table = lambda i: f'{i.bikeNumber:<9}{i.purchaseDate:<15}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<15}{i.needsService:<8}'
 FORMAT_maintenance_table = lambda i: f'{i.bikeNumber:<9}{i.batteryPercentage:<7}{i.lastMaintenance:<17}{i.kmSinceLast:<14}{i.service_information_string:<9}'
+FORMAT_ride_bike = lambda i: f'{i.bikeNumber:<9}{i.batteryPercentage:<7}{i.kmSinceLast:<13}'

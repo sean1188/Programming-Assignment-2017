@@ -3,6 +3,7 @@
 #
 
 from Constants import *
+from SenseHatManager import *
 
 ### Bicycle class ###
 class Bicycle:
@@ -20,7 +21,7 @@ class Bicycle:
         # String describing service information
         self.service_information_string = " & ".join(list(map(lambda x: x[1] ,filter(lambda x: x[0] ,zip(service_information,("Months","km","batt"))))))
         # List of ride history information
-        self.rideHistory = [i[:-1].split(',') for i in open('./data/Assignment_Data2.csv','r') if i.split(',')[0] == bikeNumber]
+        self.rideHistory = [i[:-1].split(',') for i in getDataFrom('data2.csv') if i.split(',')[0] == bikeNumber]
 
 ### Bicycle manager ###
 class BikeManager:
@@ -35,15 +36,31 @@ class BikeManager:
         else:
             raise Exception(f'Bike ({bikeNumber}) already exists', 4)
 
-    # Returns an iterable
+    # Returns an iterable of all bikes
     def get_bikes (self):
         return iter(self.bicycles)
+
+    # Return iterable of rideable bikes
+    def get_bikes_ride (self):
+        return iter(list(filter(lambda x: x.needsService == "N", self.bicycles)))
+
+    # Ride a bicycle
+    def ride_bike (self,bike_number):
+        if (bike_number in [i.bikeNumber for i in self.get_bikes_ride()]):
+            # Starts a new bike ride
+            print(f'{BICYCLE}\nRiding Bike No. {bike_number} ...')
+            # Creates a new instance of BikeRider that passes bicyle object and an instance of BikeManager
+            bike_ride = BikeRider(self.get_bikes_with_id(bike_number), self)
+            return bike_ride.start_ride()
+        else:
+            # Bike either does not exist or need service
+            raise Exception(ERROR_Bike_not_due(bike_number, 'due for service')if self.get_bikes_with_id(bike_number) else ERROR_Bike_no_exist, 6)
 
     # Returns list of Bikes that need to be serviced
     def bikes_to_service(self):
         return list(filter(lambda x: x.needsService == "Y", self.bicycles))
 
-    # Mantains bike
+    # Services bike
     def mantain_bike(self, bike_number):
         bike_to_service = self.get_bikes_with_id(bike_number)
         # Ensure that bike to service exists before mutating attributes
@@ -52,11 +69,34 @@ class BikeManager:
             print(f'Successfully serviced bicycle {bike_to_service.bikeNumber}')
 
         elif bike_to_service == False:
-            raise Exception('Bicycle does not exist',5)
+            raise Exception(ERROR_Bike_no_exist(bike_number),5)
 
         elif bike_to_service not in self.bikes_to_service():
-            raise Exception('Bicycle is not due for service',5)
+            raise Exception(ERROR_Bike_not_due(bike_number,'due for service'),5)
 
     def get_bikes_with_id(self,bikeNumber):
         fil = list(filter(lambda x: x.bikeNumber == bikeNumber, self.bicycles))
         return fil[0] if len(fil) > 0 else False
+
+# Bike rider
+class BikeRider:
+    def __init__(self,bike_to_ride, bike_manager_instance):
+        # initialise bicyle object and bike manager instance
+        self.distance = 0
+        self.ride_duration = 0
+        self.battery = int(bike_to_ride.batteryPercentage)
+        self.bike_in_use = bike_to_ride
+        self.bike_manager_instance = bike_manager_instance
+        # Sensehat LED debugging - disp_percent returns array of RGB tuples
+        self.emulator = SenseHAT_EMULATOR(disp_percent(bike_to_ride.batteryPercentage))
+
+    def start_ride(self):
+        # Recursive 3 second time instance
+        def time_instance (_time):
+            self.battery += -1
+            self.emulator.update_grid(disp_percent(self.battery))
+            time.sleep(3)
+            _time += 3
+            time_instance(_time)
+        # Begin Time Instance
+        time_instance(0)
