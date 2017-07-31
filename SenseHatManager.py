@@ -14,10 +14,11 @@ blank = (0,0,0)
 def disp_percent (percent):
     pixel_batt_level = int(float(percent)//2 )
     disp_arr = [white for i in range(int(pixel_batt_level))]
+    # Chnage color if odd number
     disp_arr.append(yellow if int(percent) % 2 != 0 else blank)
     # sense.set_pixels(disp_arr + [blank for i in range(64 - pixel)])
     # for debugging
-    return disp_arr + [blank for i in range(int(64 - pixel_batt_level))]
+    return disp_arr + [blank for i in range(int(63 - pixel_batt_level))]
 
 
 # SenseHat LED grid emulator purely for debugging purposes lol
@@ -38,3 +39,4 @@ class SenseHAT_EMULATOR:
         print("\n\n")
         for i in enumerate(self.LED_grid):
             print(f'{i[1]:<6}' if i[0] % 8 != 0 else f'\n\n{i[1]:<6}', end= "")
+        print('\n\n')
