@@ -31,7 +31,7 @@ def main_read_csv():
 
     # Get data from ride history file to make sure
     # Else throw FileNotFoundError
-    print(f"Found {len(bikList)} bicycle records in file.")
+    print("Found %i bicycle records in file." % len(bikList))
 
     # Move data into bike instance
     bike_manager = BikeManager(bikList)
@@ -83,7 +83,7 @@ def main_add_bike():
 
     bike_manager.add_bike_with_id(new_bikeID,new_bike_purchaseDate)
 
-    print(f'Bicycle({new_bikeID}) has been created.')
+    print('Bicycle(%s) has been created.' % new_bikeID)
 
     finished()
 
@@ -160,7 +160,7 @@ def init(withOption):
     #     print(err if DEBUG else f'\n# ERROR: {ERROR_invalid_input}\n')
     #     finished()
     except (FileNotFoundError,IsADirectoryError) as err:
-        print(err if DEBUG else f'\n# ERROR: {err.args[1]}\n')
+        print(err if DEBUG else '\n# ERROR: %s\n' % err.args[1])
         finished()
 
     except Exception as error:
@@ -169,10 +169,10 @@ def init(withOption):
 
         else:
             err_message, traceback = error.args
-            print(f'\n# ERROR: {err_message}\n')
+            print('\n# ERROR: %s\n' % err_message)
 
             # Route to init function with traceback
-            init(-1 if input(f'Continue to {OPTION_MSG[traceback]}? (Y/N)   ').upper() == 'N' else traceback)
+            init(-1 if input('Continue to %s? (Y/N)   ' % OPTION_MSG[traceback] ).upper() == 'N' else traceback)
 
 if __name__ == '__main__':
     if DEBUG:

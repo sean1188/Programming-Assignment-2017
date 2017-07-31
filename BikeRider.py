@@ -11,7 +11,6 @@ class BikeRider:
         self.ride_duration = 0
         self.bike_in_use = bike_to_ride
         self.battery = int(bike_to_ride.batteryPercentage)
-        self.bike_manager_instance = bike_manager_instance
         self.temp_to_charge = SENSE_get_current_temp() + 0.5
 
         # Sensehat LED debugging - disp_percent returns array of RGB tuples

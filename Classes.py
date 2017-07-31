@@ -55,7 +55,7 @@ class BikeManager:
             self.bicycles.append(Bicycle(bikeNumber,dateCreated,'100',time.strftime("%d/%m/%Y"),'0.00'))
 
         else:
-            raise Exception(f'Bike ({bikeNumber}) already exists', 4)
+            raise Exception('Bike (%s) already exists' % bikeNumber, 4)
 
     # Returns an iterable of all bikes
     def get_bikes (self):
@@ -69,7 +69,7 @@ class BikeManager:
     def ride_bike (self,bike_number):
         if (bike_number in [i.bikeNumber for i in self.get_bikes_ride()]):
             # Starts a new bike ride
-            print(f'{BICYCLE}\nRiding Bike No. {bike_number} ...')
+            print('%s\nRiding Bike No. %s ...' % (BICYCLE, bike_number) )
 
             # Passes instance of bicycle object to bike rider class
             bike_ride = BikeRider(self.get_bikes_with_id(bike_number))
@@ -101,7 +101,7 @@ class BikeManager:
         if (bike_to_service in self.bikes_to_service()):
             self.bicycles[self.bicycles.index(bike_to_service)] = Bicycle(bike_to_service.bikeNumber,bike_to_service.purchaseDate,"100",time.strftime("%d/%m/%Y"),"0.00")
 
-            print(f'Successfully serviced bicycle {bike_to_service.bikeNumber}')
+            print('Successfully serviced bicycle %s' % bike_to_service.bikeNumber)
 
         elif bike_to_service == False:
             raise Exception(ERROR_Bike_no_exist(bike_number),5)

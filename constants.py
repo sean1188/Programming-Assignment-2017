@@ -64,14 +64,14 @@ OPTION_MSG = {
 # Error messages
 ERROR_no_data = "No data - enter csv file name in option 1 first!"
 ERROR_invalid_input = "Please Enter a valid input..."
-ERROR_Bike_no_exist = lambda x : f'Bicycle ({x}) does not exist'
-ERROR_Bike_not_due = lambda x,y  : f'Bicycle ({x}) not {y}'
-ERROR_invalid = lambda x: f'Invalid {x}.'
+ERROR_Bike_no_exist = lambda x : 'Bicycle (%s) does not exist' % x
+ERROR_Bike_not_due = lambda x,y  : 'Bicycle (%s) not %s' % (x,y)
+ERROR_invalid = lambda x: 'Invalid %s.' % x
 
 ### Helper methods ###
 def display_OptionPickedMessage(option, instructions):
-    print(f'\nOption {option}: {instructions}')
-getDataFrom = lambda fileName: [i for i in open(f'./data/{fileName}',"r")][1:]
+    print('\nOption %i: %s' % (option,instructions))
+getDataFrom = lambda fileName: [i for i in open('./data/%s' % fileName,"r")][1:]
 dateObjectFrom = lambda dateStr : datetime.date(*map(int,reversed(dateStr.split('/'))))
 
 # Table formatting

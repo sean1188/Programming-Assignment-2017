@@ -51,8 +51,8 @@ class SenseHAT_EMULATOR:
 
     def update_grid(self,display_array):
         self.LED_grid = list(map(lambda x: self.LED_map[x],display_array))
-        
+
         print("\n\n")
         for i in enumerate(self.LED_grid):
-            print(f'{i[1]:<6}' if i[0] % 8 != 0 else f'\n\n{i[1]:<6}', end= "")
+            print('{:<6}'.format(i[1]) if i[0] % 8 != 0 else '\n\n{:<6}'.format(i[1]) , end= "")
         print('\n\n')
