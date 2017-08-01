@@ -90,24 +90,22 @@ def main_add_bike():
 # Perform maintenance on a bicycle.
 def main_perform_maintainance():
     global bike_manager
-
-    print(MANTAIN_BIKE_HEADER)
-
-    for i in bike_manager.bikes_to_service():
-        print (FORMAT_maintenance_table(i))
-
-    print('Input "exit" and press Enter to exit maintenance mode.')
+    
     while True:
+        print(MANTAIN_BIKE_HEADER)
+        for i in bike_manager.bikes_to_service():
+            print (FORMAT_maintenance_table(i))
 
-        user_input = input('Bike No.: ')
+        print('Input "exit" and press Enter to exit maintenance mode.')
+        user_input = input('Bike No.:')
         if user_input == 'exit':
             finished()
             break
 
         else:
             bike_manager.mantain_bike(user_input)
-            finished()
-            break
+            print('\n')
+
 
 # Ride bicycles
 def main_ride_bike():
