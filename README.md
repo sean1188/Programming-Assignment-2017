@@ -1,6 +1,5 @@
-# Programming-Assignment-2017
-NP PRG assignment
-
+# DankBikes
+Pretty c00l python bike manager thinggy
 ## Structure of Program
 
 **main.py** contains the main code for the program. `init()` is called when the program first starts, and controls flow. Methods for each option exist as subroutines within main.py. `bike_manager` is an instance of `BikeManager`, and is used to store & manipulate `Bicycle` objects.
@@ -11,4 +10,4 @@ NP PRG assignment
 
 **BikeRider.py** is where the `BikeRider` class is defined, bike ride information is stored in each instance of `BikeRider`.
 
-**SenseHatManager.py** contains methods to allow easy I/O to the Pi with the SenseHAT module. 
+**SenseHatManager.py** contains methods to allow easy I/O to the Pi with the SenseHAT module.
