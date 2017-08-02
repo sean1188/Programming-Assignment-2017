@@ -90,7 +90,7 @@ def main_add_bike():
 # Perform maintenance on a bicycle.
 def main_perform_maintainance():
     global bike_manager
-    
+
     while True:
         print(MANTAIN_BIKE_HEADER)
         for i in bike_manager.bikes_to_service():
@@ -154,9 +154,9 @@ def init(withOption):
             main_ride_bike()
 
     # Error handling Fallbacks
-    # except (ValueError, KeyError) as err:
-    #     print(err if DEBUG else f'\n# ERROR: {ERROR_invalid_input}\n')
-    #     finished()
+    except (ValueError, KeyError) as err:
+        print(err if DEBUG else f'\n# ERROR: {ERROR_invalid_input}\n')
+        finished()
     except (FileNotFoundError,IsADirectoryError) as err:
         print(err if DEBUG else '\n# ERROR: %s\n' % err.args[1])
         finished()

@@ -41,6 +41,8 @@ DISP_BIKE_RIDE_INFO_HEAD = """
 Bike No. Ride duration  Ride distance Battery %
 -------- -------------  ------------- ---------"""
 MANTAIN_BIKE_HEADER = """
+BIKE SERVICING MODE
+
 Bike No. Batt % Last Maintenance KM since Last Reason/s
 -------- ------ ---------------- ------------- ---------"""
 RIDE_BIKE_HEADER = """
