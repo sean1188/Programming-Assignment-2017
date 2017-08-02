@@ -99,14 +99,17 @@ class BikeManager:
 
         # Ensure that bike to service exists before mutating attributes
         if (bike_to_service in self.bikes_to_service()):
+            # Service the bike
             self.bicycles[self.bicycles.index(bike_to_service)] = Bicycle(bike_to_service.bikeNumber,bike_to_service.purchaseDate,"100",time.strftime("%d/%m/%Y"),"0.00")
 
             print('Successfully serviced bicycle %s' % bike_to_service.bikeNumber)
 
         elif bike_to_service == False:
+            # Bike does not exist
             raise Exception(ERROR_Bike_no_exist(bike_number),5)
 
         elif bike_to_service not in self.bikes_to_service():
+            # Bike not due for service
             raise Exception(ERROR_Bike_not_due(bike_number,'due for service'),5)
 
     # Get bicycle by ID
