@@ -28,8 +28,10 @@ class Bicycle:
         # String describing service information
         self.service_information_string = " & ".join(list(map(lambda x: x[1] ,filter(lambda x: x[0] ,zip(service_information,("Months","km","batt"))))))
 
-        # List of ride history information
-        self.rideHistory = [i[:-1].split(',') for i in getDataFrom('data2.csv') if i.split(',')[0] == bikeNumber]
+
+    # List of ride history information
+    def get_ride_history (self):
+        return [i[:-1].split(',') for i in getDataFrom('data2.csv') if i.split(',')[0] == self.bikeNumber]
 
     # Functions to dump all bicycle information into a tuple
     def dump_main_info(self):
@@ -76,12 +78,6 @@ class BikeManager:
 
             # Starts ride
             bike_ride.start_ride()
-
-            # Continues when bike is finished riding
-            # Update csv file with data from bike ride
-            write_csv = open('./data/data2.csv','a')
-            write_csv.write('\n' +','.join( map( str, bike_ride.dump_ride_info() ) ))
-            write_csv.close()
 
             # Returns updated bike
             return bike_ride

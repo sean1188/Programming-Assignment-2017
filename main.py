@@ -9,7 +9,7 @@ from Classes import BikeManager
 bike_manager = BikeManager(None)
 
 # Enable for Debug mode
-DEBUG = False
+DEBUG = True
 
 ### Helper Methods ###
 
@@ -59,7 +59,7 @@ def main_display_bike_info():
     if get_bike:
         print(DISP_BIKE_RIDE_INFO_HEAD)
 
-        for i in get_bike.rideHistory:
+        for i in get_bike.get_ride_history():
             print(FORMAT_ride_history_table(i))
 
         finished()

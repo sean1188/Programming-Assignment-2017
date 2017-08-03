@@ -49,6 +49,16 @@ class BikeRider:
                 self.bike_in_use.batteryPercentage = self.battery
                 self.bike_in_use.kmSinceLast = str(float(self.bike_in_use.kmSinceLast) + self.distance)
 
+                # Continues when bike is finished riding
+                # Update csv file with data from bike ride
+                write_csv = open('./data/data2.csv','a')
+                write_csv.write('\n' +','.join( map( str, bike_ride.dump_ride_info() ) ))
+                write_csv.close()
+
+                # Re-initialise to check if bicycle needs to be serviced
+                # Splats main info back into new instance to generate accurate service information
+                self.bike_in_use = Bicycle(*self.bike_in_use.dump_main_info()[:-1])
+
                 return
 
         # Begin Time Instance
