@@ -12,19 +12,20 @@ class BikeRider:
         self.bike_in_use = bike_to_ride
         self.battery = int(bike_to_ride.batteryPercentage)
         self.temp_to_charge = SENSE_get_current_temp() + 0.5
+        # Stores movement details in a temporary tuple for comparison every interval
+        self.movement_temp_ = (0,0,0)
 
         # Sensehat LED debugging - disp_percent returns array of RGB tuples
         self.emulator = SenseHAT_EMULATOR(SENSE_disp_percent(bike_to_ride.batteryPercentage))
 
     def start_ride(self):
-        movement_temp_ = (0,0,0)
 
         def time_instance (_time):
             self.ride_duration = _time
 
             if self.ride_duration < 15:
-                did_move = SENSE_has_cumulative_movement(movement_temp_)
-                movement_temp_ = did_move[1]
+                did_move = SENSE_has_cumulative_movement(self.movement_temp_)
+                self.movement_temp_ = did_move[1]
 
                 if did_move[0] and SENSE_get_current_temp() > self.temp_to_charge:
                     # Bike moved
@@ -46,7 +47,7 @@ class BikeRider:
             else:
                 # Update bike info
                 self.bike_in_use.batteryPercentage = self.battery
-                self.bike_in_use.kmSinceLast = str(int(self.bike_in_use.kmSinceLast) + self.distance)
+                self.bike_in_use.kmSinceLast = str(float(self.bike_in_use.kmSinceLast) + self.distance)
 
                 return
 

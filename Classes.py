@@ -77,9 +77,10 @@ class BikeManager:
             # Starts ride
             bike_ride.start_ride()
 
+            # Continues when bike is finished riding
             # Update csv file with data from bike ride
             write_csv = open('./data/data2.csv','a')
-            write_csv.write(','.join( map( str, bike_ride.dump_ride_info() ) ))
+            write_csv.write('\n' +','.join( map( str, bike_ride.dump_ride_info() ) ))
             write_csv.close()
 
             # Returns updated bike
@@ -100,7 +101,10 @@ class BikeManager:
         # Ensure that bike to service exists before mutating attributes
         if (bike_to_service in self.bikes_to_service()):
             # Service the bike
-            self.bicycles[self.bicycles.index(bike_to_service)] = Bicycle(bike_to_service.bikeNumber,bike_to_service.purchaseDate,"100",time.strftime("%d/%m/%Y"),"0.00")
+            bike_to_service.batteryPercentage = '100'
+            bike_to_service.lastMaintenance = time.strftime("%d/%m/%Y")
+            bike_to_service.needsService = 'N'
+            bike_to_service.kmSinceLast = '0.00'
 
             print('Successfully serviced bicycle %s' % bike_to_service.bikeNumber)
 
