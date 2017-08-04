@@ -4,7 +4,7 @@
 
 from Constants import *
 from SenseHatManager import *
-from BikeRider import BikeRider
+from BikeRider import *
 
 #                     #
 ##                   ##

@@ -118,6 +118,8 @@ def main_ride_bike():
     # Get bicycle object after riding
     bike_manager.ride_bike(input('Bike No.: '))
 
+    finished()
+
 
 ### init Router ###
 def init(withOption):

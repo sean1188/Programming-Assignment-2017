@@ -2,6 +2,7 @@
 # Created by: Sean Lim
 #
 
+from SenseHatManager import *
 from Classes import *
 
 class BikeRider:
@@ -16,13 +17,13 @@ class BikeRider:
         self.movement_temp_ = (0,0,0)
 
         # Sensehat LED debugging - disp_percent returns array of RGB tuples
-        self.emulator = SenseHAT_EMULATOR(SENSE_disp_percent(bike_to_ride.batteryPercentage))
+        # self.emulator = SenseHAT_EMULATOR(SENSE_disp_percent(bike_to_ride.batteryPercentage))
 
     def start_ride(self):
 
         def time_instance (_time):
             self.ride_duration = _time
-
+            print('RIDE DURATION: ',_time + 3)
             if self.ride_duration < 15:
                 did_move = SENSE_has_cumulative_movement(self.movement_temp_)
                 self.movement_temp_ = did_move[1]
@@ -45,6 +46,8 @@ class BikeRider:
                 time_instance(_time)
 
             else:
+                print("RIDE FINISHED")
+
                 # Update bike info
                 self.bike_in_use.batteryPercentage = self.battery
                 self.bike_in_use.kmSinceLast = str(float(self.bike_in_use.kmSinceLast) + self.distance)
@@ -52,12 +55,10 @@ class BikeRider:
                 # Continues when bike is finished riding
                 # Update csv file with data from bike ride
                 write_csv = open('./data/data2.csv','a')
-                write_csv.write('\n' +','.join( map( str, bike_ride.dump_ride_info() ) ))
+                write_csv.write('\n' +','.join( map( str, self.dump_ride_info() ) ))
                 write_csv.close()
 
-                # Re-initialise to check if bicycle needs to be serviced
-                # Splats main info back into new instance to generate accurate service information
-                self.bike_in_use = Bicycle(*self.bike_in_use.dump_main_info()[:-1])
+                self.bike_in_use.__init__(*self.bike_in_use.dump_main_info()[:-1])
 
                 return
 
