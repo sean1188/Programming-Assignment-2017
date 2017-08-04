@@ -23,13 +23,14 @@ class BikeRider:
 
         def time_instance (_time):
             self.ride_duration = _time
-            print('RIDE DURATION: ',_time + 3)
+            print('RIDE DURATION: ',_time)
             if self.ride_duration < 15:
                 did_move = SENSE_has_cumulative_movement(self.movement_temp_)
                 self.movement_temp_ = did_move[1]
 
                 if did_move[0] and SENSE_get_current_temp() > self.temp_to_charge:
                     # Bike moved
+                    print("MOVEMENT DETECTED")
                     self.battery += 1
                     self.distance += 0.01
 

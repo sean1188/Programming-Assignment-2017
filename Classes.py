@@ -79,6 +79,7 @@ class BikeManager:
             # Starts ride
             bike_ride.start_ride()
 
+
             # Returns updated bike
             return bike_ride
 
