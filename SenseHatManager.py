@@ -24,7 +24,7 @@ def SENSE_disp_percent (percent):
     sense.set_pixels(disp_arr)
 
     # for debugging
-    return 
+    return
 
 # Get temperature readings
 def SENSE_get_current_temp():

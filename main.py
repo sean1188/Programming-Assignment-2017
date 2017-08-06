@@ -9,7 +9,7 @@ from Classes import BikeManager
 bike_manager = BikeManager(None)
 
 # Enable for Debug mode
-DEBUG = True
+DEBUG = False
 
 ### Helper Methods ###
 
