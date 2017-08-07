@@ -3,7 +3,7 @@
 #
 
 import time
-import datetime 
+import datetime
 
 ### Constant variables ###
 MAIN_MENU = """\
@@ -77,7 +77,7 @@ getDataFrom = lambda fileName: [i for i in open('./data/%s' % fileName,"r")][1:]
 dateObjectFrom = lambda dateStr : datetime.date(*map(int,reversed(dateStr.split('/'))))
 
 # Table formatting
-FORMAT_ride_history_table = lambda i: '{:<9}{:<15}{:<14}{}'.format(i[0], i[1]+"sec", i[2]+"km", i[3])
+FORMAT_ride_history_table = lambda i: '{:<9}{:<15}{:<14}{:<10}'.format(i[0], i[1]+"sec", i[2]+"km", i[3])
 FORMAT_main_display_table = lambda i: '{:<9}{:<15}{:<7}{:<17}{:<15}{:<8}'.format(*i.dump_main_info())
 FORMAT_maintenance_table = lambda i: '{:<9}{:<7}{:<17}{:<14}{:<9}'.format(*i.dump_service_info())
 FORMAT_ride_bike = lambda i: '{:<9}{:<7}{:<13}'.format(*i.dump_ride_info())

@@ -61,7 +61,6 @@ def main_display_bike_info():
 
         for i in get_bike.get_ride_history():
             print(FORMAT_ride_history_table(i))
-
         finished()
 
     else:

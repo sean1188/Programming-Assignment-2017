@@ -56,7 +56,7 @@ class BikeRider:
                 # Continues when bike is finished riding
                 # Update csv file with data from bike ride
                 write_csv = open('./data/data2.csv','a')
-                write_csv.write('\n' +','.join( map( str, self.dump_ride_info() ) ))
+                write_csv.write(','.join( map( str, self.dump_ride_info() ) )+ '\n')
                 write_csv.close()
 
                 self.bike_in_use.__init__(*self.bike_in_use.dump_main_info()[:-1])
