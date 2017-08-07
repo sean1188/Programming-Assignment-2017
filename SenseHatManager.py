@@ -2,9 +2,9 @@
 # Created by: Sean Lim
 #
 
-from sense_hat import SenseHat
+#from sense_hat import SenseHat
 
-sense = SenseHat()
+#sense = SenseHat()
 
 white = (50,255,50)
 yellow = (255,50,0)

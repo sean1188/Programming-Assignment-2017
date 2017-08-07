@@ -28,7 +28,7 @@ class BikeRider:
                 did_move = SENSE_has_cumulative_movement(self.movement_temp_)
                 self.movement_temp_ = did_move[1]
 
-                if did_move[0] and SENSE_get_current_temp() > self.temp_to_charge:
+                if did_move[0] and SENSE_get_current_temp() > 0:
                     # Bike moved
                     print("MOVEMENT DETECTED")
                     self.battery += 1

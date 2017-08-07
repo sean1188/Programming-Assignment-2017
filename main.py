@@ -156,7 +156,7 @@ def init(withOption):
 
     # Error handling Fallbacks
     except (ValueError, KeyError) as err:
-        print(err if DEBUG else '\n# ERROR: {}\n' % ERROR_invalid_input)
+        print(err if DEBUG else '\n# ERROR: %s\n' % ERROR_invalid_input)
         finished()
     except (FileNotFoundError,IsADirectoryError) as err:
         print(err if DEBUG else '\n# ERROR: %s\n' % err.args[1])
